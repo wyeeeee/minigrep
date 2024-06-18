@@ -1,15 +1,14 @@
 use std::env;
 use std::process;
 mod utils;
-use utils::config::run;
-use utils::parse::parse;
+use utils::query::run;
+use utils::config::Config;
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let config =  parse(&args).unwrap_or_else(|err|{
+    let config =  Config::new(env::args()).unwrap_or_else(|err|{
         println!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
-    if let Err(e) = run(config){
+    if let Err(e) = run(&config){
         println!("Application error: {}", e);
         process::exit(1);
     }
